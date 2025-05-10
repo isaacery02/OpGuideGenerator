@@ -5,20 +5,22 @@
 import { aiResourceSummarization, type AiResourceSummarizationInput } from '@/ai/flows/azure-resource-summarizer';
 import type { AzureResource } from '@/lib/types';
 
-export async function summarizeResourceTypesAction(resources: AzureResource[]): Promise<Record<string, { summary?: string, error?: string, count: number }>> {
+export async function processSelectedResourcesAction(resources: AzureResource[], selectedTypes: string[]): Promise<Record<string, { summary?: string, error?: string, count: number }>> {
   const groupedResources: Record<string, AzureResource[]> = {};
 
-  // Group resources by type
+  // Filter and group selected resources by type
   for (const resource of resources) {
-    if (!groupedResources[resource.type]) {
-      groupedResources[resource.type] = [];
+    if (selectedTypes.includes(resource.type)) {
+      if (!groupedResources[resource.type]) {
+        groupedResources[resource.type] = [];
+      }
+      groupedResources[resource.type].push(resource);
     }
-    groupedResources[resource.type].push(resource);
   }
 
   const groupedSummaries: Record<string, { summary?: string, error?: string, count: number }> = {};
 
-  // Summarize each group
+  // Summarize each selected group
   for (const resourceType in groupedResources) {
     const resourcesOfType = groupedResources[resourceType];
     const count = resourcesOfType.length;
@@ -50,7 +52,7 @@ export async function summarizeResourceTypesAction(resources: AzureResource[]): 
 
     try {
       console.log(`Attempting to summarize resources of type: ${resourceType} (${count} resources)`);
-      
+
       // Call the existing AI summarization flow with combined input
       const input: AiResourceSummarizationInput = {
         resourceType: `Batch Summary for ${resourceType}`, // Indicate it's a batch
@@ -58,9 +60,9 @@ export async function summarizeResourceTypesAction(resources: AzureResource[]): 
         resourceConfiguration: combinedConfiguration,
         resourceUsage: '', // Usage per type is not directly available, can be left empty or aggregated if possible
       };
-      
+
       const result = await aiResourceSummarization(input);
-      
+
       groupedSummaries[resourceType] = { 
         summary: result.summary, 
         count: count
