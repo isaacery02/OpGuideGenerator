@@ -71,24 +71,17 @@ Generated: ${new Date().toLocaleString()}
 
 `;
     if (groupedSummaries) {
-      dummyContent += "Azure Resource Summaries by Type:
-
-";
+      dummyContent += `Azure Resource Summaries by Type:\n\n`; // Corrected: Use template literal with \n
       for (const type in groupedSummaries) {
         const summaryInfo = groupedSummaries[type];
-        dummyContent += `--- ${type} (${summaryInfo.count}) ---
-`;
+        dummyContent += `--- ${type} (${summaryInfo.count}) ---\n`; // Ensure newline
         if (summaryInfo.summary) {
-          dummyContent += `${summaryInfo.summary}
-`;
+          dummyContent += `${summaryInfo.summary}\n`; // Ensure newline
         }
         else if (summaryInfo.error) {
-          dummyContent += `Error summarizing: ${summaryInfo.error}
-`;
+          dummyContent += `Error summarizing: ${summaryInfo.error}\n`; // Ensure newline
         }
-        dummyContent += '
-
-'; // Add two newlines after each resource type summary
+        dummyContent += `\n\n`; // Corrected: Use template literal for multiple newlines
       }
     }
 
@@ -164,3 +157,4 @@ Generated: ${new Date().toLocaleString()}
     </FeatureCard>
   );
 }
+
