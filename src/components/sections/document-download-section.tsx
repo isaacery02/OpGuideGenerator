@@ -71,17 +71,24 @@ Generated: ${new Date().toLocaleString()}
 
 `;
     if (groupedSummaries) {
-      dummyContent += "Azure Resource Summaries by Type:\n\n";
+      dummyContent += "Azure Resource Summaries by Type:
+
+";
       for (const type in groupedSummaries) {
         const summaryInfo = groupedSummaries[type];
-        dummyContent += `--- ${type} (${summaryInfo.count}) ---\n`;
+        dummyContent += `--- ${type} (${summaryInfo.count}) ---
+`;
         if (summaryInfo.summary) {
-          dummyContent += `${summaryInfo.summary}\n`;
+          dummyContent += `${summaryInfo.summary}
+`;
         }
         else if (summaryInfo.error) {
-          dummyContent += `Error summarizing: ${summaryInfo.error}\n`;
+          dummyContent += `Error summarizing: ${summaryInfo.error}
+`;
         }
-        dummyContent += '\n\n'; // Add two newlines after each resource type summary
+        dummyContent += '
+
+'; // Add two newlines after each resource type summary
       }
     }
 
@@ -124,15 +131,15 @@ Generated: ${new Date().toLocaleString()}
 
   return (
     <FeatureCard
-      stepNumber={3}
-      title="Generate & Download OpGuide"
-      description="Generate the operational guide based on the summarized resources."
+      stepNumber={2}
+      title="Generate and Download Your Operational Guide"
+      description="Once you have summarized your selected Azure resources, you can generate and download the OpGuide document."
     >
       <div className="space-y-4">
         {!canGenerate && (
           <div className="flex items-center text-amber-600 dark:text-amber-400 p-3 border border-amber-500/50 bg-amber-500/10 rounded-md">
             <AlertCircle className="h-5 w-5 mr-2 shrink-0" />
-            <p className="text-sm">Please fetch and summarize Azure resources first.</p>
+            <p className="text-sm">Please fetch and summarize Azure resources first (Step 1).</p>
           </div>
         )}
         <Button

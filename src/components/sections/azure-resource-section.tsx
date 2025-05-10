@@ -33,7 +33,7 @@ async function fetchAzureResources(subscriptionId: string, clientId: string, add
     const client = new ResourceManagementClient(credential, subscriptionId);
     addLog("Fetching resources...");
     const resources = [];
-    for await (const item of client.resources.listBySubscription()) {
+    for await (const item of client.resources.list()) {
       // Filter out types that are likely not useful for summarization or cause issues
        if (item.type && !item.type.startsWith("microsoft.insights/") && !item.type.startsWith("microsoft.aadiam/")){
           addLog(`Fetched resource: ${item.name} (${item.type})`);
@@ -159,7 +159,7 @@ export function AzureResourceSection({
 
   return (
     <FeatureCard
-      stepNumber={2}
+      stepNumber={1}
       title="Gather and Select Azure Resources for Summarization"
       description="Connect to your Azure subscription to gather resource information, then select which types to summarize."
     >

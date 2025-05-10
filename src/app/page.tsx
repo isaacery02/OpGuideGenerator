@@ -99,7 +99,7 @@ export default function AzureOpGuidePage() {
 
         <div className="space-y-10">
 
-          <AzureResourceSection
+          <AzureResourceSection // This will be step 1, FeatureCard inside handles its own number via prop
             onResourcesFetched={handleResourcesFetched}
             onSelectedTypesChange={handleSelectedTypesChange}
             fetchedResourceCount={fetchedResources.length}
@@ -155,7 +155,7 @@ export default function AzureOpGuidePage() {
 
           <Separator />
 
-          <DocumentDownloadSection
+          <DocumentDownloadSection // This will be step 2, FeatureCard inside handles its own number via prop
             isReadyToGenerate={isReadyToGenerateDocument}
             groupedSummaries={groupedSummaries}
              templateFile={null} // No template file upload anymore
